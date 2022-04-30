@@ -39,6 +39,7 @@ p {
     display: flex;
     flex-direction: column;
     padding-top: 40px;
+    
     padding-left: 125px;
 }
 
@@ -54,6 +55,12 @@ p {
     font-size: 20px;
     line-height: 23px;
     color: #FCFCFC;
+}
+.botaoColorC4C4C4 {
+    background-color: #C4C4C4;
+}
+.ativarBotao {
+    background-color: #404EED ;
 }
 
 .montagem input {
@@ -78,25 +85,30 @@ p {
 
 }
 .opcao {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
     background-color: #F2F2F2;
 
     margin-left: 10px;
     margin-top: 8px;
     margin-bottom: 8px;
     margin-right: 10px;
-    border-radius: 140px;
+    border-radius: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 3px solid #404EED 
+   
+    
+}
+
+.selecionado {
+    border: 3px solid #404EED;
 }
 
 .opcao img {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
 }
 .abc {
     display: flex;
