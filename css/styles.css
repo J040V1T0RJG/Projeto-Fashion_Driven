@@ -42,7 +42,7 @@ p {
     
     padding-left: 125px;
 }
-
+/*
 .montagem button{
     width: 460px;
     height: 40px;
@@ -55,13 +55,26 @@ p {
     font-size: 20px;
     line-height: 23px;
     color: #FCFCFC;
-}
-.botaoColorC4C4C4 {
+}*/
+
+.footer .fazerPedido {
+    width: 460px;
+    height: 40px;
     background-color: #C4C4C4;
+    border-radius: 10px;
+    border: none;
+    margin-top: 23px;
+
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    color: #FCFCFC;
 }
-.ativarBotao {
-    background-color: #404EED ;
+.footer .fazerPedido.ativo {
+    background-color: #4561ED;
+    font-weight: bold;
 }
+
 
 .montagem input {
     width: 460px;
@@ -81,7 +94,7 @@ p {
 .opcoes {
     display: flex;
     flex-direction: row;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
 }
 .opcao {
@@ -131,6 +144,7 @@ p {
 
 .base {
     width: 100vw;
+    padding-left: 125px;
     
 
     
@@ -143,7 +157,7 @@ p {
     height: 20px;
     display: flex;
     
-    margin-left: 125px;
+    
 }
 .gambiarra > :first-child p {
     font-style: normal;
@@ -160,3 +174,29 @@ p {
     height: 20px;
     
 }
+/*arrumar pedidos finais sumindo*/
+.ultimosPedidos {
+    width: 80vw;
+    display: flex;
+    overflow: scroll;
+    margin-top: 15px;
+}
+
+.pedido {
+    min-width: 202px;
+    height: 236px;   
+
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-right: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.pedido img {
+    width:  180px;
+    height: 180px;
+}
+

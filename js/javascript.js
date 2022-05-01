@@ -1,6 +1,72 @@
+let usuario = prompt("Digite o seu nome: ")
 let nomeModelo;
 let nomeGola;
 let nomeTecido;
+let dados = {};
+let inputLink;
+let validacaoDados;
+let listaPedidoSelecionado = {};
+
+const pegarUltimosPedidos = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
+pegarUltimosPedidos.then(renderizarUltimosPedidos);
+
+function renderizarUltimosPedidos(resposta) {
+    lista = resposta.data;
+    console.log(lista)
+    
+    const itemSelecionado = document.querySelector(".ultimosPedidos");
+    itemSelecionado.innerHTML = "";
+    for (let i = 0; i < lista.length; i++) {
+        itemSelecionado.innerHTML += `
+            <div class="pedido posicao${i}" onclick="selecionarPedido(${i})">
+                <img src="${lista[i].image}" alt="" srcset="">
+                <p><strong>Criador: </strong>${lista[i].owner}</p>
+            </div>
+        `
+        console.log(lista[i])
+    }
+
+}
+
+function selecionarPedido(acessarPosicao) {
+    listaPedidoSelecionado = lista[acessarPosicao]
+
+    let text = `Confirme seu pedido: camisa N°${acessarPosicao + 1}
+    model: ${listaPedidoSelecionado.model},
+    neck: ${listaPedidoSelecionado.neck},
+    material: ${listaPedidoSelecionado.material},
+    image: ${listaPedidoSelecionado.image},
+    owner: ${usuario},
+    author: ${listaPedidoSelecionado.owner}
+    `
+    if(confirm(text) == true) {
+
+        dados = {
+            model: `${listaPedidoSelecionado.model}`,
+            neck: `${listaPedidoSelecionado.neck}`,
+            material: `${listaPedidoSelecionado.material}`,
+            image: `${listaPedidoSelecionado.image}`,
+            owner: `${usuario}`,
+            author: `${listaPedidoSelecionado.owner}`
+        }
+        const enviarDados = axios.post("https://mock-api.driven.com.br/api/v4/shirts-api/shirts", dados);
+        enviarDados.then(sucesso);
+        enviarDados.catch(erro);
+
+        function sucesso() {
+      //      renderizarUltimosPedidos(resposta);
+            alert(" Voce confirmou o seu pedido e o pedido foi enviado com sucesso.")
+        }
+        function erro() {
+            alert("Ops, não conseguimos processar sua encomenda.")
+        }
+    }
+    else {
+        alert("Voce cancelou o seu pedido")
+    }
+}
+
+
 
 function selecionarModelo(elemento) {
     const itemSelecionado = document.querySelector(".modelo .selecionado");
@@ -23,6 +89,7 @@ function selecionarModelo(elemento) {
     else if(valorElemento3) {
         nomeModelo = "top-tank";
     }
+    ativarBotao();
 }
 
 function selecionarGola(elemento) {
@@ -46,6 +113,7 @@ function selecionarGola(elemento) {
     else if(valorElemento3) {
         nomeGola = "polo";
     }
+    ativarBotao();
 }
 
 function selecionarTecido(elemento) {
@@ -72,14 +140,50 @@ function selecionarTecido(elemento) {
     ativarBotao();
 }
 
-function ativarBotao(elemento) {
-    let validacao = (nomeModelo !== undefined && nomeGola !== undefined && nomeTecido !== undefined);
-    if(validacao) {
-        const itemSelecionado = document.querySelector(".montagem").querySelector("button");
-        itemSelecionado.classList.add("ativarBotao")
-        console.log(itemSelecionado)
-        //elemento.classList.add("ativarBotao");
+
+function ativarBotao() {
+    inputLink = document.querySelector("input").value;
+    validacaoDados = (nomeModelo !== undefined && nomeGola !== undefined && nomeTecido !== undefined && inputLink !== "" && inputLink.includes("https://") );
+
+    if(validacaoDados) {
+        const itemSelecionado = document.querySelector(".footer button");
+        itemSelecionado.classList.add("ativo")
     }
-    debugger
+}
+setInterval(ativarBotao, 1000);
+
+function confirmarPedido() {
+    let validacaoUsuario = (usuario !== "" && usuario !== null)
+    if (validacaoUsuario) {
+        if(validacaoDados) {
+            dados = {
+                model: `${nomeModelo}`,
+                neck: `${nomeGola}`,
+                material: `${nomeTecido}`,
+                image: `${inputLink}`,
+                owner: `${usuario}`,
+                author: `${usuario}`
+            }
+            const enviarDados = axios.post("https://mock-api.driven.com.br/api/v4/shirts-api/shirts", dados);
+            enviarDados.then(sucesso);
+            enviarDados.catch(erro);
+
+            function sucesso() {
+         //       renderizarUltimosPedidos(resposta);
+                alert("Pedido enviado com sucesso.")
+            }
+            function erro() {
+                alert("Ops, não conseguimos processar sua encomenda")
+            }
+        }
+        else {
+            alert("Preencha todas as informações")
+        }
+    }
+    else {
+        alert("Nome do usuario não foi digitado.")
+
+    }
+
 }
 
