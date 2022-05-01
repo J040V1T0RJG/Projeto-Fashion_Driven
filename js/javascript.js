@@ -7,8 +7,13 @@ let inputLink;
 let validacaoDados;
 let listaPedidoSelecionado = {};
 
-const pegarUltimosPedidos = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
-pegarUltimosPedidos.then(renderizarUltimosPedidos);
+chamarRenderizarUltimosPedidos()
+
+function chamarRenderizarUltimosPedidos() {
+    const pegarUltimosPedidos = axios.get("https://mock-api.driven.com.br/api/v4/shirts-api/shirts")
+    pegarUltimosPedidos.then(renderizarUltimosPedidos);
+}
+
 
 function renderizarUltimosPedidos(resposta) {
     lista = resposta.data;
@@ -32,12 +37,12 @@ function selecionarPedido(acessarPosicao) {
     listaPedidoSelecionado = lista[acessarPosicao]
 
     let text = `Confirme seu pedido: camisa N°${acessarPosicao + 1}
-    model: ${listaPedidoSelecionado.model},
-    neck: ${listaPedidoSelecionado.neck},
-    material: ${listaPedidoSelecionado.material},
-    image: ${listaPedidoSelecionado.image},
-    owner: ${usuario},
-    author: ${listaPedidoSelecionado.owner}
+model: ${listaPedidoSelecionado.model},
+neck: ${listaPedidoSelecionado.neck},
+material: ${listaPedidoSelecionado.material},
+image: ${listaPedidoSelecionado.image},
+owner: ${usuario},
+author: ${listaPedidoSelecionado.owner}
     `
     if(confirm(text) == true) {
 
@@ -54,7 +59,7 @@ function selecionarPedido(acessarPosicao) {
         enviarDados.catch(erro);
 
         function sucesso() {
-      //      renderizarUltimosPedidos(resposta);
+            chamarRenderizarUltimosPedidos();
             alert(" Voce confirmou o seu pedido e o pedido foi enviado com sucesso.")
         }
         function erro() {
@@ -143,7 +148,7 @@ function selecionarTecido(elemento) {
 
 function ativarBotao() {
     inputLink = document.querySelector("input").value;
-    validacaoDados = (nomeModelo !== undefined && nomeGola !== undefined && nomeTecido !== undefined && inputLink !== "" && inputLink.includes("https://") );
+    validacaoDados = (nomeModelo !== undefined && nomeGola !== undefined && nomeTecido !== undefined && inputLink !== "" && (inputLink.includes("https://") || inputLink.includes("http://") ) );
 
     if(validacaoDados) {
         const itemSelecionado = document.querySelector(".footer button");
@@ -169,7 +174,7 @@ function confirmarPedido() {
             enviarDados.catch(erro);
 
             function sucesso() {
-         //       renderizarUltimosPedidos(resposta);
+                chamarRenderizarUltimosPedidos();
                 alert("Pedido enviado com sucesso.")
             }
             function erro() {
@@ -182,6 +187,7 @@ function confirmarPedido() {
     }
     else {
         alert("Nome do usuario não foi digitado.")
+        usuario = prompt("Digite o seu nome: ")
 
     }
 
