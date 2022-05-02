@@ -41,8 +41,8 @@ model: ${listaPedidoSelecionado.model},
 neck: ${listaPedidoSelecionado.neck},
 material: ${listaPedidoSelecionado.material},
 image: ${listaPedidoSelecionado.image},
-owner: ${usuario},
-author: ${listaPedidoSelecionado.owner}
+owner: ${listaPedidoSelecionado.owner},
+author: ${usuario}
     `
     if(confirm(text) == true) {
 
@@ -51,19 +51,20 @@ author: ${listaPedidoSelecionado.owner}
             neck: `${listaPedidoSelecionado.neck}`,
             material: `${listaPedidoSelecionado.material}`,
             image: `${listaPedidoSelecionado.image}`,
-            owner: `${usuario}`,
-            author: `${listaPedidoSelecionado.owner}`
+            owner: `${listaPedidoSelecionado.owner}`,
+            author: `${usuario}`
         }
         const enviarDados = axios.post("https://mock-api.driven.com.br/api/v4/shirts-api/shirts", dados);
         enviarDados.then(sucesso);
-        enviarDados.catch(erro);
+        enviarDados.catch((resposta) => {
+            alert(`Ops, não conseguimos processar sua encomenda
+(1)${resposta.message}
+(2)${resposta.response.data.message}`);      
+        });
 
         function sucesso() {
             chamarRenderizarUltimosPedidos();
             alert(" Voce confirmou o seu pedido e o pedido foi enviado com sucesso.")
-        }
-        function erro() {
-            alert("Ops, não conseguimos processar sua encomenda.")
         }
     }
     else {
@@ -171,14 +172,15 @@ function confirmarPedido() {
             }
             const enviarDados = axios.post("https://mock-api.driven.com.br/api/v4/shirts-api/shirts", dados);
             enviarDados.then(sucesso);
-            enviarDados.catch(erro);
+            enviarDados.catch((resposta) => {
+                alert(`Ops, não conseguimos processar sua encomenda
+(1)${resposta.message}
+(2)${resposta.response.data.message}`);      
+            });
 
             function sucesso() {
                 chamarRenderizarUltimosPedidos();
                 alert("Pedido enviado com sucesso.")
-            }
-            function erro() {
-                alert("Ops, não conseguimos processar sua encomenda")
             }
         }
         else {
